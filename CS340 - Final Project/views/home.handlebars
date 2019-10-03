@@ -1,0 +1,722 @@
+
+
+<div style="border: 2px solid red; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Conferences</h1>
+<table id="conferenceList">
+    <tbody id="confTBody">
+        <tr>
+            <th>Conference Name</th>
+        </tr>
+        {{#each confRowData}}
+        <tr>
+            <td>{{conference_name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<form>
+    <fieldset>
+        <legend>Add Conference</legend>
+        <label for="conference_name">Conference Name</label>
+        <input id="conference_name" type="text" required>
+        <input type="button" id="submit" value="Submit" onclick="addConference()">
+    </fieldset>
+</form>
+</div>
+
+
+
+
+
+
+<div style="border: 2px solid blue; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Divisions</h1>
+<table id="divisionList">
+    <tbody id="divTBody">
+        <tr>
+            <th>Division Name</th>
+        </tr>
+        {{#each divRowData}}
+        <tr>
+            <td id="{{division_ID}}">{{division_name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<form>
+    <fieldset>
+        <legend>Add Division</legend>
+        <label for="division_name">Division Name</label>
+        <input id="division_name" type="text" required>
+        <label for="division_conference">Conference</label>
+        <select name="division_conference" id="division_conference">
+            {{#each confRowData}}
+            <option value="{{conference_ID}}" id="{{conference_name}}">{{conference_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitDiv" value="Submit" onclick="addDivision()">
+    </fieldset>
+</form>
+
+
+<form>
+    <fieldset>
+        <legend>Change a Division-Conference Relationship</legend>
+        <label for="divConfChange">Division to Change</label>
+        <select name="divConfChange" id="divConfChange">
+            {{#each divRowData}}
+            <option value="{{division_ID}}" id="{{division_name}}">{{division_name}}</option>
+            {{/each}}
+        </select>
+        <label for="confDivChange">New Conference</label>
+        <select name ="confDivChange" id="confDivChange">
+            <option value="" id="">NULL</option>
+            {{#each confRowData}}
+            <option value="{{conference_ID}}" id="{{conference_name}}">{{conference_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitDivConfChange" value="Submit" onclick="conferenceChange()">
+    </fieldset>
+</form>
+
+
+<form>
+    <fieldset>
+        <legend>Delete A Division</legend>
+        <label for="divisionDelete">Division</label>
+        <select name="divisionDelete" id="divisionDelete">
+            {{#each divRowData}}
+            <option value="{{division_ID}}" id="{{division_name}}">{{division_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="deleteDivision" value="Delete" onclick="removeDivision()">
+    </fieldset>
+</form>
+</div>
+
+
+
+
+
+
+<div style="border: 2px solid red; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Teams</h1>
+<table id="teamList">
+    <tbody id="teamTBody">
+        <tr>
+            <th>Team Name</th>
+            <th>Coach Name</th>
+            <th>City Name</th>
+        </tr>
+        {{#each teamRowData}}
+        <tr>
+            <td>{{team_name}}</td>
+            <td>{{coach_name}}</td>
+            <td>{{city_name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<form>
+    <fieldset>
+        <legend>Add Team</legend>
+        <label for="team_name">Team Name</label>
+        <input id="team_name" type="text" required>
+        <label for="coach_name">Coach Name</label>
+        <input id="coach_name" type="text" required>
+        <label for="city_name">City Name</label>
+        <input id="city_name" type="text" required>
+        <label for="team_division">Division</label>
+        <select name="team_division" id="team_division">
+            {{#each divRowData}}
+            <option value="{{division_ID}}" id="{{division_name}}">{{division_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitTeam" value="Submit" onclick="addTeam()">
+    </fieldset>
+</form>
+
+<form>
+    <fieldset>
+        <legend>Change a Team-Division Relationship</legend>
+        <label for="teamDivChange">Team to Change</label>
+        <select name="teamDivChange" id="teamDivChange">
+            {{#each teamRowData}}
+            <option value="{{team_ID}}" id="{{team_name}}">{{team_name}}</option>
+            {{/each}}
+        </select>
+        <label for="divTeamChange">New Division</label>
+        <select name ="divTeamChange" id="divTeamChange">
+            <option value="" id="">NULL</option>
+            {{#each divRowData}}
+            <option value="{{division_ID}}" id="{{division_name}}">{{division_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitTeamDivChange" value="Submit" onclick="divisionChange()">
+    </fieldset>
+</form>
+
+<form>
+    <fieldset>
+        <legend>Search for a Team</legend>
+        <label for="teamSearch">Team Name</label>
+        <input id="teamSearch" type="text" required>
+        <label for="tDivision">Filter by Division</label>
+        <select name="tDivision" id="tDivision" required>
+            {{#each divRowData}}
+            <option value="{{division_ID}}" id="{{division_ID}}">{{division_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitTeamSearch" value="Search" onclick="searchTeam()">
+    </fieldset>
+</form>
+
+<table id="searchTeamTable">
+    <tbody>
+    </tbody>
+</table>
+</div>
+
+
+<div style="border: 2px solid blue; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Players</h1>
+<table id="playerList">
+    <tbody id="playerTBody">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Number</th>
+            <th>Height(inches)</th>
+            <th>Position</th>
+        </tr>
+        {{#each playerRowData}}
+        <tr>
+            <td>{{first_name}}</td>
+            <td>{{last_name}}</td>
+            <td>{{number}}</td>
+            <td>{{height_inches}}</td>
+            <td>{{position}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+<form>
+    <fieldset>
+        <legend>Add Player</legend>
+        <label for="first_name">First Name</label>
+        <input id="first_name" type="text" required>
+        <label for="last_name">Last Name</label>
+        <input id="last_name" type="text" required>
+        <label for="number">Number</label>
+        <input id="number" type="number" required>
+        <label for="height_inches">Height</label>
+        <input id="height_inches" type="number" required>
+        <label for="position">Position</label>
+        <select name ="position" id="position">
+            <option value="PG">PG</option>
+            <option value="SG">SG</option>
+            <option value="SF">SF</option>
+            <option value="PF">PF</option>
+            <option value="C">C</option>
+        </select>
+        <label for="player_team">Team</label>
+        <select name="player_team" id="player_team">
+            {{#each teamRowData}}
+            <option value="{{team_ID}}" id="{{team_name}}">{{team_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitPlayer" value="Submit" onclick="addPlayer()">
+    </fieldset>
+</form>
+
+
+<form>
+    <fieldset>
+        <legend>Change a Player-Team Relationship</legend>
+        <label for="playerTeamChange">Player to Change</label>
+        <select name="playerTeamChange" id="playerTeamChange">
+            {{#each playerRowData}}
+            <option value="{{player_id}}" id="{{first_name}}{{last_name}}">{{first_name}} {{last_name}}</option>
+            {{/each}}
+        </select>
+        <label for="teamPlayerChange">New Team</label>
+        <select name ="teamPlayerChange" id="teamPlayerChange">
+            <option value="" id="">NULL</option>
+            {{#each teamRowData}}
+            <option value="{{team_ID}}" id="{{team_name}}">{{team_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitPlayerTeamChange" value="Submit" onclick="teamChange()">
+    </fieldset>
+</form>
+
+<form>
+    <fieldset>
+        <legend>Search for a Player</legend>
+        <label for="firstNameSearch">First Name</label>
+        <input id="firstNameSearch" type="text" required>
+        <label for="lastNameSearch">Last Name</label>
+        <input id="lastNameSearch" type="text" required>
+        <label for="pTeam">Filter by Team</label>
+        <select name="pTeam" id="pTeam" required>
+            {{#each teamRowData}}
+            <option value="{{team_ID}}" id="{{team_ID}}">{{team_name}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitPlayerSearch" value="Search" onclick="searchPlayer()">
+    </fieldset>
+</form>
+<table id="searchPlayerTable">
+    <tbody>
+    </tbody>
+</table>
+</div>
+
+
+
+
+
+<div style="border: 2px solid red; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Specialties</h1>
+<table id="specialtyList">
+    <tbody id="specialtyTBody">
+        <tr>
+            <th>Specialty Type</th>
+        </tr>
+        {{#each specialtyRowData}}
+        <tr>
+            <td>{{type}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<form>
+    <fieldset>
+        <legend>Add Specialty</legend>
+        <label for="type">Specialty Type</label>
+        <input id="type" type="text" required>
+        <input type="button" id="submitSpecialty" value="Submit" onclick="addSpecialty()">
+    </fieldset>
+</form>
+</div>
+
+
+
+<div style="border: 2px solid blue; padding-bottom: 15px; padding-top: 15px; padding-left: 10px; padding-right: 10 px">
+<h1>Player Specialties</h1>
+<table id="playerSpecialties">
+    <tbody id="playerSpecialtyTBody">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Specialty</th>
+        </tr>
+        {{#each playerSpecialtyRowData}}
+        <tr>
+            <td>{{first_name}}</td>
+            <td>{{last_name}}</td>
+            <td>{{type}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+
+</table>
+
+
+
+<form>
+    <fieldset>
+        <legend>Add Player Specialty Relationship</legend>
+        <label for="playerToAdd">Choose Player</label>
+        <select name="playerToAdd" id="playerToAdd">
+            {{#each playerRowData}}
+            <option value="{{player_id}}" id="{{player_id}}">{{first_name}} {{last_name}}</option>
+            {{/each}}
+        </select>
+        <label for="specialtyToAdd">Choose Specialty</label>
+        <select name="specialtyToAdd" id="specialtyToAdd">
+            {{#each specialtyRowData}}
+            <option value="{{specialty_ID}}" id="{{specialty_ID}}">{{type}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitPlayerSpecialty" value="Submit" onclick="addPlayerSpecialty()">
+    </fieldset>
+</form>
+
+
+
+<form>
+    <fieldset>
+        <legend>Change Player-Specialty Relationship</legend>
+        <label for="playerSpecialtyChange">Choose Player Specialty to Change</label>
+        <select name="playerSpecialtyChange" id="playerSpecialtyChange">
+            {{#each playerSpecialtyRowData}}
+            <option value="{{has_spec_ID}}">{{first_name}} {{last_name}}   {{type}}</option>
+            {{/each}}
+        </select>
+        <label for="specialtyPlayerChange">Choose Specialty</label>
+        <select name="specialtyPlayerChange" id="specialtyPlayerChange">
+            {{#each specialtyRowData}}
+            <option value="{{specialty_ID}}">{{type}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="submitSpecialtyChange" value="Submit" onclick="specialtyChange()">
+    </fieldset>
+</form>
+
+
+<form>
+    <fieldset>
+        <legend>Delete A Player-Specialty Relationship</legend>
+        <label for="playSpecDelete">Division</label>
+        <select name="playSpecDelete" id="playSpecDelete">
+            {{#each playerSpecialtyRowData}}
+            <option value="{{has_spec_ID}}" id="{{has_spec_ID}}">{{first_name}} {{last_name}}   {{type}}</option>
+            {{/each}}
+        </select>
+        <input type="button" id="deletePlaySpec" value="Delete" onclick="removePlaySpec()">
+    </fieldset>
+</form>
+</div>
+
+<script>
+    
+function conferenceQueryGen(conference_name) {
+    var query = '';
+    query += "&conference_name=" + conference_name;
+    
+    return query;
+}  
+    
+    
+    
+function addConference() {
+    var req = new XMLHttpRequest();
+    var conference_name = document.getElementById("conference_name").value;
+    
+    
+    var newQuery = conferenceQueryGen(conference_name);
+    if (conference_name !== '') {
+        req.open("GET", "/insert?conference_name=" + conference_name, true)
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("conferenceList");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].conference_name;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send(null);
+        event.preventDefault();
+    }
+}
+
+    
+    
+function divisionQueryGen(division_name, conference_ID) {
+    var query = '';
+    query += "&division_name=" + division_name + "&conf_ID=" + conference_ID;
+    
+    return query;
+}
+    
+    
+function addDivision() {
+    var req = new XMLHttpRequest();
+    var division_name = document.getElementById("division_name").value;
+    var conference_ID = document.getElementById("division_conference").value;
+    
+    
+    var newQuery = divisionQueryGen(division_name, conference_ID);
+    if(division_name !== '') {
+        req.open("GET", "/insertDiv?division_name=" + division_name + "&conf_ID=" + conference_ID, true);
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("divisionList");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].division_name;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send(null);
+        event.preventDefault();
+    }
+}
+    
+
+function teamQueryGen(team_name, coach_name, city_name, division_ID) {
+    var query = '';
+    query += "&team_name=" + team_name + "&coach_name=" + coach_name + "&city_name=" + city_name + "&div_ID" + division_ID;
+    
+    return query;
+}
+    
+
+function addTeam() {
+    var req = new XMLHttpRequest();
+    var team_name = document.getElementById("team_name").value;
+    var coach_name = document.getElementById("coach_name").value; 
+    var city_name = document.getElementById("city_name").value;
+    var division_ID = document.getElementById("team_division").value;
+    
+    
+    var newQuery = teamQueryGen(team_name, coach_name, city_name, division_ID);
+    if(team_name !== '') {
+        req.open("GET", "/insertTeam?team_name=" + team_name + "&coach_name=" + coach_name + "&city_name=" + city_name + "&div_ID=" + division_ID, true);
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("teamList");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].team_name;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].coach_name;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].city_name;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send(null);
+        event.preventDefault();
+    }
+}
+    
+    
+function searchTeam() {
+    var req = new XMLHttpRequest();
+    var team_name = document.getElementById("teamSearch").value;
+    var div_ID = document.getElementById("tDivision").value;
+    
+    
+    if(team_name !== "") {
+        req.open("GET", "/searchTeam?team_name=" + team_name + "&div_ID=" + div_ID, true)
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("searchTeamTable");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].team_name;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send("null");
+        event.preventDefault();
+    }
+}
+    
+
+function playerQueryGen(first_name, last_name, number, height_inches, position) {
+    var query = '';
+    query += "&first_name=" + first_name + "&last_name=" + last_name + "&number=" + number + "&height_inches=" + height_inches + "&position=" + position;
+    
+    return query;
+}
+    
+    
+function addPlayer() {
+    var req = new XMLHttpRequest();
+    var first_name = document.getElementById("first_name").value;
+    var last_name = document.getElementById("last_name").value;
+    var number = document.getElementById("number").value;
+    var height_inches = document.getElementById("height_inches").value;
+    var position = document.getElementById("position").value;
+    var team_ID = document.getElementById("player_team").value;
+    
+    
+    var newQuery = playerQueryGen(first_name, last_name, number, height_inches, position, team_ID);
+    if(team_name !== '') {
+        req.open("GET", "/insertPlayer?first_name=" + first_name + "&last_name=" + last_name + "&number=" + number + "&height_inches=" + height_inches + "&position=" + position + "&t_ID=" + team_ID, true);
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("playerList");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].first_name;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].last_name;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].number;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].height_inches;
+            row.appendChild(td);
+            td = document.createElement("td");
+            td.textContent = response[0].position;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send(null);
+        event.preventDefault();
+    }
+}
+    
+    
+    
+function searchPlayer() {
+    var req = new XMLHttpRequest();
+    var first_name = document.getElementById("firstNameSearch").value;
+    var last_name = document.getElementById("lastNameSearch").value;
+    var t_ID = document.getElementById("pTeam").value;
+    
+    
+    if(first_name !== "") {
+        req.open("GET", "/searchPlayer?first_name=" + first_name + "&last_name=" + last_name + "&t_ID=" + t_ID, true)
+        req.send(null);
+        event.preventDefault();
+    }
+}
+    
+    
+
+function addSpecialty() {
+    var req = new XMLHttpRequest();
+    var type = document.getElementById("type").value;
+    
+    if(type !== '') {
+        req.open("GET", "/insertSpecialty?type=" + type, true);
+        req.addEventListener("load", function() {
+            var response = JSON.parse(req.responseText);
+            var tbody = document.getElementById("specialtyList");
+            var row = document.createElement("tr");
+            var td = document.createElement("td");
+            td.textContent = response[0].type;
+            row.appendChild(td);
+            tbody.appendChild(row);
+        });
+        req.send(null);
+        event.preventDefault();
+    }
+}
+
+    
+function addPlayerSpecialty() {
+    var req = new XMLHttpRequest();
+    var play_ID = document.getElementById("playerToAdd").value;
+    var spec_ID = document.getElementById("specialtyToAdd").value;
+    
+    req.open("GET", "/insertPlayerSpecialty?play_ID=" + play_ID + "&spec_ID=" + spec_ID, true);
+    req.send(null);
+    event.preventDefault();
+}
+
+function removeDivision(event, divisionList){
+    var req = new XMLHttpRequest();
+    var division_ID = document.getElementById("divisionDelete").value;
+    req.open("GET", "/delete?division_ID=" + division_ID, true);
+    req.addEventListener("load", function() {
+        var table = document.getElementById("divisionList");
+        var rowCount = table.rows.length;
+        for (var i = 0; i < rowCount; i++) {
+            var row = table.rows[i];
+            if (row.id == division_ID) {
+                table.deleteRow(i);
+                rowCount--;
+                i--;
+            }
+        }
+    });
+    req.send(null);
+}
+    
+ 
+function removePlaySpec(event, playerSpecialties) {
+    var req = new XMLHttpRequest();
+    var has_spec_ID = document.getElementById("playSpecDelete").value;
+    
+    req.open("GET", "/deletePlaySpec?has_spec_ID=" + has_spec_ID, true);
+    req.addEventListener("load", function() {
+        var table = document.getElementById("playerSpecialties");
+        var rowCount = table.rows.length;
+        for (var i = 0; i < rowCount; i++) {
+            var row = table.rows[i];
+            if (row.id == has_spec_ID) {
+                table.deleteRow(i);
+                rowCount--;
+                i--;
+            }
+        }
+    });
+    req.send(null);
+}   
+    
+
+    
+ function divConfChangeQueryGen(division_ID, conf_ID){
+    var query='';
+     query += "&division_ID=" + division_ID + "&conf_ID=" + conf_ID;
+     
+     return query;
+}
+    
+    
+    
+function conferenceChange() {
+    var req = new XMLHttpRequest();
+    var division_ID = document.getElementById("divConfChange").value;
+    var conf_ID = document.getElementById("confDivChange").value;
+    
+    
+    var newQuery = divConfChangeQueryGen(division_ID, conf_ID);
+    if(division_name !== '') {
+        req.open("GET", "/conferenceChange?division_ID=" + division_ID + "&conf_ID=" + conf_ID, true);
+        req.send(null);
+        event.preventDefault();
+    }
+}
+ 
+    
+ 
+function divisionChange() {
+    var req = new XMLHttpRequest();
+    var team_ID = document.getElementById("teamDivChange").value;
+    var div_ID = document.getElementById("divTeamChange").value;
+    
+    if(team_name !== '') {
+        req.open("GET", "/divisionChange?team_ID=" + team_ID + "&div_ID=" + div_ID, true);
+        req.send(null);
+        event.preventDefault();
+    }
+}
+   
+    
+
+function teamChange() {
+    var req = new XMLHttpRequest();
+    var player_id = document.getElementById("playerTeamChange").value;
+    var t_ID = document.getElementById("teamPlayerChange").value;
+    
+    if(team_name !== '') {
+        req.open("GET", "/teamChange?player_id=" + player_id + "&t_ID=" + t_ID, true);
+        req.send(null);
+        event.preventDefault();
+    }
+}
+    
+
+
+function specialtyChange() {
+    var req = new XMLHttpRequest();
+    var has_spec_ID = document.getElementById("playerSpecialtyChange").value;
+    var spec_ID = document.getElementById("specialtyPlayerChange").value;
+    
+    if(team_name !== '') {
+        req.open("GET", "/specialtyChange?has_spec_ID=" + has_spec_ID + "&spec_ID=" + spec_ID, true);
+        req.send(null);
+        event.preventDefault();
+    }
+}
+
+
+</script>
